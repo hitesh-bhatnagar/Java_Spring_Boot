@@ -10,6 +10,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
+@CrossOrigin(origins = "http://localhost:3060")
+
 @RestController  // tells spring this class handles HTTP requests
 @RequestMapping("/students") // used to map web requests to specific handler classes or methods within those classes. 
 
