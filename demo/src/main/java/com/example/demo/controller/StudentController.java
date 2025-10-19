@@ -5,7 +5,10 @@ import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.StudentService;
 
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 
 @RestController  // tells spring this class handles HTTP requests
 @RequestMapping("/students") // used to map web requests to specific handler classes or methods within those classes. 
@@ -29,19 +32,41 @@ public class StudentController {
     @GetMapping("/{id}")
 
     // @PathVariable annotation would be an endpoint that identifies an entity with a primary key
-    public Student getStudentByID(@PathVariable int id){    
-        return studentService.getStudentByID(id);
+    public ResponseEntity<Student> getStudentByID(@PathVariable int id){    
+        Student student = studentService.getStudentByID(id);
+        return ResponseEntity.ok(student);
     }
+
 
     @PostMapping
-    public String addStudent(@RequestBody Student student){
-        studentService.addStudent(student);
-        return "Student added successfully";
+    public ResponseEntity<?> addStudent(@Valid @RequestBody Student student, BindingResult result) {
+        if (result.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage())
+            );
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        Student message = studentService.addStudent(student);
+        return ResponseEntity.ok(message);
     }
 
+
     @PutMapping("/{id}")
-    public String updateStudent(@PathVariable int id, @RequestBody Student student){
-        return studentService.updateStudent(id, student);
+    public ResponseEntity<?> updateStudent(@PathVariable int id, @Valid @RequestBody Student student, BindingResult result){
+        if(result.hasErrors()){
+            Map<String, String> errors = new HashMap<>();
+            result.getFieldErrors().forEach(error -> 
+            errors.put(error.getField(), error.getDefaultMessage())
+            );
+            
+            return ResponseEntity.badRequest().body(errors);
+
+        }
+
+        String message = studentService.updateStudent(id, student);
+        return ResponseEntity.ok(message);
     }
 
     @DeleteMapping("/{id}")
