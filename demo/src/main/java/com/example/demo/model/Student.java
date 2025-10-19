@@ -28,7 +28,7 @@ public class Student {
     private String name;
     
     @NotBlank(message = "Course cannot be blank")
-    @Size(min = 3, message = "Course name must have at least 3 characters")
+    @Size(min = 3, max = 30, message = "Course name must have at least 3 characters")
     private String course;
 
     public Student(){}
