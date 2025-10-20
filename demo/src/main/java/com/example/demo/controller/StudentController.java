@@ -3,14 +3,18 @@ import java.util.*;
 import com.example.demo.model.Student;
 import com.example.demo.repository.StudentRepository;
 import com.example.demo.service.StudentService;
-
+import com.example.demo.dto.StudentDTO;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-@CrossOrigin(origins = "http://localhost:3060")
+
+@CrossOrigin(origins = "http://localhost:3000")
 
 @RestController  // tells spring this class handles HTTP requests
 @RequestMapping("/students") // used to map web requests to specific handler classes or methods within those classes. 
@@ -21,10 +25,45 @@ public class StudentController {
     private final StudentService studentService;
 
     // constructor based dependency injection
+    @Autowired  // marks a constructor, setter method property or configuration method to be autowired. meaning spring will automatically inject the required beans(dependencies) at runtime using its dependecy injection mechanism. 
     public StudentController(StudentService studentService, StudentRepository studentRepository){
         this.studentService = studentService;
-        // this.studentRepository = studentRepository;
     }
+
+    @PostMapping
+    public  ResponseEntity<StudentDTO> addStudent(@Valid @RequestBody StudentDTO studentDTO ){
+        return ResponseEntity.ok(studentService.addStudent(studentDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<StudentDTO> updateStudent(@PathVariable int id, @Valid @RequestBody StudentDTO studentDTO){
+        return ResponseEntity.ok(studentService.updateStudent(id, studentDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteStudent(@PathVariable int id){
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok("Student deleted successfully");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<StudentDTO> getStudentById(@PathVariable int id){
+        return ResponseEntity.ok(studentService.getStudentById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<StudentDTO>> getAllStudents(){
+        return ResponseEntity.ok(studentService.getAllStudents());
+    }
+
+}
+/*
+            <!!!    Below code handles CRUD, validation and exception handling but not profesional and for large scale backend projects>
+            
+            Prob_1->  in addStudent we are directly using Student entity which is also your database table. (means db struct = API struct)
+            
+            Prob_2 -> The controller is returning Entities directly better way is to use StudentDTO (Data Transfer Obj)
+            
 
     @GetMapping 
     public List<Student> getAllStudents(){
@@ -77,3 +116,6 @@ public class StudentController {
     }
 
 }
+*/
+
+
