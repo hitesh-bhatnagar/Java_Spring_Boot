@@ -4,6 +4,10 @@ package com.example.demo.dto;
  * We don't expose database entities directly 
  * We can filter or rename fields for API responses
  * We can add computed values like fullName or grade
+ * 
+ * 
+ * StudentDTO  -->  Student
+ * Student     -->  StudentDTO
  */
 
 public class StudentDTO {
