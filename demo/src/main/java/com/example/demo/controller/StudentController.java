@@ -56,6 +56,27 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
+    @GetMapping("/course/{course}")
+    public ReponseEntity<List<StudentDTO>> getStudentByCourse(@ParthVariable String course){
+        List<StudentDTO> students = studentService.getStudentByCourse(course);
+
+        return ResponseEntity.ok(students);
+    }
+
+    GetMapping("/search")
+    public ResponseEntity<List<StudentDTO>> searchStudentByName(@RequestParam String prefix){
+        // @RequestParam is used to extract query parameters from the URL in a GET request
+        List<StudentDTO> students = studentService.searchByNamePrefix(prefix);
+        
+        return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/count/{course}")
+    public ResponseEntity<Long> countStudentByCourse(@PathVariable String course){
+        long count = studentService.countByCourse(course);
+        return ResponseEntity.ok(count);
+    }
+
 }
 /*
             <!!!    Below code handles CRUD, validation and exception handling but not profesional and for large scale backend projects>

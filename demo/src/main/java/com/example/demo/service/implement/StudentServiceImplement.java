@@ -28,18 +28,18 @@ public class StudentServiceImplement implements StudentService {
 
             This method is bollerplate and repetitive and not industry standards 
 
-private StudentDTO convertToDTO(Student student){       
-   return new StudentDTO(student.getId(), student.getName(), student.getCourse());
-}
+        private StudentDTO convertToDTO(Student student){       
+        return new StudentDTO(student.getId(), student.getName(), student.getCourse());
+        }
 
-private Student convertToEntity(StudentDTO dto){
-   Student student = new Student();
-   student.setId(dto.getId());
-   student.setName(dto.getName());
-   student.setCourse(dto.getCourse());
+        private Student convertToEntity(StudentDTO dto){
+        Student student = new Student();
+        student.setId(dto.getId());
+        student.setName(dto.getName());
+        student.setCourse(dto.getCourse());
 
-   return student;
-}
+        return student;
+        }
 
 */
 
@@ -86,4 +86,13 @@ private Student convertToEntity(StudentDTO dto){
             .collect(Collectors.toList());
     }
 
+    @Override public List<StudentDTO> getStudentByCourse(String course){
+        return studentRepository.findByCourse(course)
+            .stream()
+            .map(student -> modelMapper.map(student, StudentDTO.class))
+            .collect(Collectors.toList());
+    }
+
+    
 }
+

@@ -9,6 +9,9 @@ public interface StudentService{
     void deleteStudent(int id);
     StudentDTO getStudentById(int id);
     List<StudentDTO> getAllStudents();
+    List<StudentDTO> getStudentByCourse(String course);
+    List<StudentDTO> searchByNamePrefix(String prefix);
+    long countByCourse(String course);
 }
 
 // @Service    // marks this as spring-managed bean (a singleton instance automatically created by spring)
