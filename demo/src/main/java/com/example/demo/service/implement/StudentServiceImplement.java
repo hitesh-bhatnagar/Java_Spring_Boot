@@ -7,7 +7,12 @@ import com.example.demo.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
 import com.example.demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import java.util.*;
 import java.util.stream.*;
 
@@ -105,6 +110,20 @@ public class StudentServiceImplement implements StudentService {
     @Override
     public long countByCourse(String course){
         return studentRepository.countByCourse(course);
+    }
+
+    @Override 
+    public List<StudentDTO> getAllStudentsPaged(int page, int size, String sortBy){
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+
+        Page<Student> studentPage = studentRepository.findAll(pageable);
+
+        return studentPage
+            .getContent()
+            .stream()
+            .map(student -> modelMapper.map(student, StudentDTO.class))
+            .collect(Collectors.toList()); 
     }
 }
 

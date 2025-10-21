@@ -12,6 +12,8 @@ public interface StudentService{
     List<StudentDTO> getStudentByCourse(String course);
     List<StudentDTO> searchByNamePrefix(String prefix);
     long countByCourse(String course);
+    
+    List<StudentDTO> getAllStudentsPaged(int page, int size, String sortBy);
 }
 
 // @Service    // marks this as spring-managed bean (a singleton instance automatically created by spring)

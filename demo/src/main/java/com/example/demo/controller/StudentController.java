@@ -72,6 +72,17 @@ public class StudentController {
         return ResponseEntity.ok(count);
     }
 
+    @GetMapping("/paged")
+    public ResponseEntity<List<StudentDTO>> getAllStudentsPages(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue="5") int size,
+        @RequestParam(defaultValue="id") String sortBy
+    ){
+
+        List<StudentDTO> students = studentService.getAllStudentsPaged(page, size, sortBy);
+        return ResponseEntity.ok(students);
+    }
+
 }
 /*
             <!!!    Below code handles CRUD, validation and exception handling but not profesional and for large scale backend projects>
