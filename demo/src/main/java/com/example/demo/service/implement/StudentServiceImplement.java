@@ -86,13 +86,25 @@ public class StudentServiceImplement implements StudentService {
             .collect(Collectors.toList());
     }
 
-    @Override public List<StudentDTO> getStudentByCourse(String course){
+    @Override
+    public List<StudentDTO> getStudentByCourse(String course){
         return studentRepository.findByCourse(course)
             .stream()
             .map(student -> modelMapper.map(student, StudentDTO.class))
             .collect(Collectors.toList());
     }
 
-    
+    @Override
+    public List<StudentDTO> searchByNamePrefix(String prefix){
+        return studentRepository.findByNameStartingWith(prefix)
+            .stream()
+            .map(student -> modelMapper.map(student, StudentDTO.class))
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public long countByCourse(String course){
+        return studentRepository.countByCourse(course);
+    }
 }
 

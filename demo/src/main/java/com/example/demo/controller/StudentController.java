@@ -10,8 +10,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -57,17 +55,14 @@ public class StudentController {
     }
 
     @GetMapping("/course/{course}")
-    public ReponseEntity<List<StudentDTO>> getStudentByCourse(@ParthVariable String course){
+    public ResponseEntity<List<StudentDTO>> getStudentByCourse(@PathVariable String course) {
         List<StudentDTO> students = studentService.getStudentByCourse(course);
-
         return ResponseEntity.ok(students);
     }
 
-    GetMapping("/search")
-    public ResponseEntity<List<StudentDTO>> searchStudentByName(@RequestParam String prefix){
-        // @RequestParam is used to extract query parameters from the URL in a GET request
+    @GetMapping("/search")
+    public ResponseEntity<List<StudentDTO>> searchStudentByName(@RequestParam String prefix) {
         List<StudentDTO> students = studentService.searchByNamePrefix(prefix);
-        
         return ResponseEntity.ok(students);
     }
 
